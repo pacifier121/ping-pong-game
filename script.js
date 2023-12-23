@@ -9,6 +9,7 @@ const initialX = 725, initialY = 375;
 let posBob = 300, posAlice = 300;
 let velX = 10, velY = 10;
 let ballX = initialX, ballY = initialY;
+let gameOver = null;
 
 let keys = {
     "w": false,
@@ -37,10 +38,6 @@ document.addEventListener("keyup", (e) => {
     else if (e.key === "ArrowDown") keys["ArrowDown"] = false;
 })
 
-// To restart the game
-document.addEventListener("keydown", (e) => {
-    if (e.key === " ") resetGame();
-})
 
 // Gameloop
 let gameLoop = setInterval(resumeGame, 40);
@@ -60,6 +57,7 @@ function resetGame(){
     }
     celebrationElem.style.opacity = 0;
     gameLoop = setInterval(resumeGame, 40);
+    document.removeEventListener("keydown", captureSpacebarHit);
 }
 
 function resumeGame() {
@@ -95,8 +93,15 @@ function checkCollision() {
     if (ballX >= 1400 && (posAlice <= ballY && ballY <= posAlice+200)) velX *= -1;
 }
 
+function captureSpacebarHit(e) {
+    if (e.key === " ") resetGame();
+}
+
 function celebration(winner){
     clearInterval(gameLoop);
     celebrationElem.innerText = `${winner} won!`;
     celebrationElem.style.opacity = 1; 
+
+    // To restart the game
+    document.addEventListener("keydown", captureSpacebarHit);
 }
