@@ -2,6 +2,8 @@ const ball = document.getElementById('ball')
 const bobBar = document.getElementById('bobBar')
 const aliceBar = document.getElementById('aliceBar')
 const celebrationElem = document.getElementById('celebration');
+const instructionElem = document.getElementById('instructions');
+instructionElem.innerText = "Controls: W,S and Up,Down";
 
 const barSpeed = 5;
 const initialX = 725, initialY = 375;
@@ -58,6 +60,7 @@ function resetGame(){
     celebrationElem.style.opacity = 0;
     gameLoop = setInterval(resumeGame, 40);
     document.removeEventListener("keydown", captureSpacebarHit);
+    instructionElem.innerHTML = "Controls: W,S and Up,Down";
 }
 
 function resumeGame() {
@@ -101,6 +104,7 @@ function celebration(winner){
     clearInterval(gameLoop);
     celebrationElem.innerText = `${winner} won!`;
     celebrationElem.style.opacity = 1; 
+    instructionElem.innerHTML = "Use Spacebar to restart the game";
 
     // To restart the game
     document.addEventListener("keydown", captureSpacebarHit);
